@@ -41,8 +41,12 @@ class PubTest < MiniTest::Test
     assert_equal(205.50, @pub.till())
   end
 
+  def test_find_drink_on_menu
+    assert_equal(@beer, @pub.find_drink_on_menu("Innis & Gunn"))
+  end
+
   def test_pub_selling_drink__can_afford
-    @pub.sell_drink(@customer1, @beer)
+    @pub.sell_drink(@customer1, "Innis & Gunn")
     assert_equal(45.75, @customer1.wallet())
     assert_equal(204.25, @pub.till())
     assert_equal(1, @customer1.drinks().count())
@@ -50,14 +54,14 @@ class PubTest < MiniTest::Test
 
   def test_pub_selling_drink__cannot_afford
     customer = Customer.new("Amy", 5.00, 21)
-    @pub.sell_drink(customer, @gin_and_tonic)
+    @pub.sell_drink(customer, "Sipsmith and Fevertree")
     assert_equal(5.00, customer.wallet())
     assert_equal(200.00, @pub.till())
     assert_equal(0, customer.drinks().count())
   end
 
   def test_pub_selling_drink__is_old_enough
-    @pub.sell_drink(@customer1, @gin_and_tonic)
+    @pub.sell_drink(@customer1, "Sipsmith and Fevertree")
     assert_equal(43.15, @customer1.wallet())
     assert_equal(206.85, @pub.till())
     assert_equal(1, @customer1.drinks().count())
@@ -65,29 +69,29 @@ class PubTest < MiniTest::Test
 
   def test_pub_selling_drink__is_too_young
     customer = Customer.new("Natty", 50.00, 17)
-    @pub.sell_drink(customer, @gin_and_tonic)
+    @pub.sell_drink(customer, "Sipsmith and Fevertree")
     assert_equal(50.00, customer.wallet())
     assert_equal(200.00, @pub.till())
     assert_equal(0, customer.drinks().count())
   end
 
   def test_pub_selling_drink__is_not_drunk
-    @pub.sell_drink(@customer1, @beer)
-    @pub.sell_drink(@customer1, @beer)
-    @pub.sell_drink(@customer1, @beer)
-    @pub.sell_drink(@customer1, @beer)
+    @pub.sell_drink(@customer1, "Innis & Gunn")
+    @pub.sell_drink(@customer1, "Innis & Gunn")
+    @pub.sell_drink(@customer1, "Innis & Gunn")
+    @pub.sell_drink(@customer1, "Innis & Gunn")
     assert_equal(33.00, @customer1.wallet())
     assert_equal(217.00, @pub.till())
     assert_equal(4, @customer1.drinks().count())
   end
 
   def test_pub_selling_drink__is_too_drunk
-    @pub.sell_drink(@customer1, @beer)
-    @pub.sell_drink(@customer1, @beer)
-    @pub.sell_drink(@customer1, @beer)
-    @pub.sell_drink(@customer1, @beer)
-    @pub.sell_drink(@customer1, @beer)
-    @pub.sell_drink(@customer1, @beer)
+    @pub.sell_drink(@customer1, "Innis & Gunn")
+    @pub.sell_drink(@customer1, "Innis & Gunn")
+    @pub.sell_drink(@customer1, "Innis & Gunn")
+    @pub.sell_drink(@customer1, "Innis & Gunn")
+    @pub.sell_drink(@customer1, "Innis & Gunn")
+    @pub.sell_drink(@customer1, "Innis & Gunn")
     assert_equal(28.75, @customer1.wallet())
     assert_equal(221.25, @pub.till())
     assert_equal(5, @customer1.drinks().count())
