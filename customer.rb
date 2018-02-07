@@ -1,11 +1,12 @@
 class Customer
 
-attr_reader :name , :wallet, :drinks
+attr_reader :name , :wallet, :drinks, :age, :drunkness
 
-  def initialize(name, wallet)
+  def initialize(name, wallet, age)
     @name = name
     @wallet = wallet
     @drinks = []
+    @age = age
   end
 
 
@@ -15,12 +16,22 @@ attr_reader :name , :wallet, :drinks
   end
 
   def add_drink(drink)
-    return @drinks.push(drink)
+     @drinks.push(drink)
   end
 
   def can_customer_afford_drink(drink)
-    return true if @wallet >= drink.price()
-    return false
+    return @wallet >= drink.price()
   end
-  
+
+  def is_customer_old_enough()
+    return @age >= 18
+  end
+
+  def level_of_drunkness
+    drunkness = 0 
+    for drink in @drinks
+      drunkness += drink.alcohol_level()
+    end
+    return drunkness
+  end
 end

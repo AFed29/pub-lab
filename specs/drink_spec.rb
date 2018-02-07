@@ -3,9 +3,9 @@ require_relative('../drink')
 
 class DrinkTest < MiniTest::Test
   def setup
-    @beer = Drink.new("Guinness", 3.85)
-    @rum_and_coke = Drink.new("Cuba Libre", 4.50)
-    @whisky = Drink.new("Oban", 4.75)
+    @beer = Drink.new("Guinness", 3.85, 2.4)
+    @rum_and_coke = Drink.new("Cuba Libre", 4.50, 1.5)
+    @whisky = Drink.new("Oban", 4.75, 1.2)
   end
 
   def test_check_name_of_drink__beer

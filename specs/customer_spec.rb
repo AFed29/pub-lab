@@ -5,9 +5,9 @@ require_relative("../drink")
 class CustomerTest < MiniTest::Test
 
   def setup()
-    @customer1 = Customer.new("Alex", 100.00)
-    @customer2 = Customer.new("David" , 50.00)
-    @beer = Drink.new("Deuchars IPA", 3.65)
+    @customer1 = Customer.new("Alex", 100.00, 26)
+    @customer2 = Customer.new("David" , 50.00, 36)
+    @beer = Drink.new("Deuchars IPA", 3.65, 2.1)
 
 
   end
@@ -31,12 +31,12 @@ class CustomerTest < MiniTest::Test
   end
 
   def test_add_drink_to_customer
-    drinks = @customer1.add_drink(@beer)
+    @customer1.add_drink(@beer)
     assert_equal(1, @customer1.drinks().count())
   end
 
   def test_can_customer_afford_drink__cannot_afford
-    customer = Customer.new("Bert", 3.00)
+    customer = Customer.new("Bert", 3.00, 21)
     result = customer.can_customer_afford_drink(@beer)
     assert_equal(false, result)
   end
@@ -44,5 +44,25 @@ class CustomerTest < MiniTest::Test
   def test_can_customer_afford_drink__can_afford
     result = @customer1.can_customer_afford_drink(@beer)
     assert_equal(true, result)
+  end
+
+  def test_check_customer_age
+    assert_equal(26, @customer1.age())
+  end
+
+  def test_is_customer_18_or_older__yes
+    result = @customer1.is_customer_old_enough()
+    assert_equal(true, result)
+  end
+
+  def test_is_customer_18_or_older__no
+    customer = Customer.new("Peter", 1000.00, 13)
+    result = customer.is_customer_old_enough()
+    assert_equal(false, result)
+  end
+
+  def test_add_alcohol_level_to_drunkness
+    @customer1.add_drink(@beer)
+    assert_equal(2.1, @customer1.level_of_drunkness())
   end
 end
