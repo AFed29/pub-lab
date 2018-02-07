@@ -33,12 +33,19 @@ class PubTest < MiniTest::Test
     assert_equal(205.50, @pub.till())
   end
 
-  def test_customer_buying_drink__can_afford
+  def test_pub_selling_drink__can_afford
     customer = Customer.new("Dan", 10.00)
-
-    @pub.add_money_to_till(@beer.price())
-    customer.remove_money(@beer.price())
+    @pub.sell_drink(customer, @beer)
     assert_equal(5.75, customer.wallet())
     assert_equal(204.25, @pub.till())
+    assert_equal(1, customer.drinks().count())
+  end
+
+  def test_pub_selling_drink__cannot_afford
+    customer = Customer.new("Amy", 5.00)
+    @pub.sell_drink(customer, @gin_and_tonic)
+    assert_equal(5.00, customer.wallet())
+    assert_equal(200.00, @pub.till())
+    assert_equal(0, customer.drinks().count())
   end
 end

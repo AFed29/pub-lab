@@ -31,8 +31,18 @@ class CustomerTest < MiniTest::Test
   end
 
   def test_add_drink_to_customer
-      drinks = @customer1.add_drink(@beer)
-      assert_equal(1, @customer1.drinks().count())
+    drinks = @customer1.add_drink(@beer)
+    assert_equal(1, @customer1.drinks().count())
+  end
 
+  def test_can_customer_afford_drink__cannot_afford
+    customer = Customer.new("Bert", 3.00)
+    result = customer.can_customer_afford_drink(@beer)
+    assert_equal(false, result)
+  end
+
+  def test_can_customer_afford_drink__can_afford
+    result = @customer1.can_customer_afford_drink(@beer)
+    assert_equal(true, result)
   end
 end

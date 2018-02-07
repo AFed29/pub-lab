@@ -16,6 +16,11 @@ attr_reader :name , :wallet, :drinks
 
   def add_drink(drink)
     return @drinks.push(drink)
-
   end
+
+  def can_customer_afford_drink(drink)
+    return true if @wallet >= drink.price()
+    return false
+  end
+  
 end
