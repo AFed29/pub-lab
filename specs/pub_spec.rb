@@ -2,6 +2,7 @@ require('minitest/autorun')
 require_relative('../pub')
 require_relative('../drink')
 require_relative('../customer')
+require_relative('../food')
 
 class PubTest < MiniTest::Test
 
@@ -12,8 +13,15 @@ class PubTest < MiniTest::Test
 
     drinks = [@beer, @gin_and_tonic, @whisky]
 
-    @pub = Pub.new("The Black Bull", 200.00, drinks)
+    @pasta = Food.new("Carbonara", 9.00, 2.5)
+    @steak = Food.new("Rib Eye", 14.00, 1.8)
+    @stew = Food.new("Lamb Hot Pot", 6.50, 2.0)
 
+    food = [@pasta, @steak, @stew]
+
+    @pub = Pub.new("The Black Bull", 200.00, drinks, food)
+
+    @customer1 = Customer.new("Bob", 50.00, 21)
   end
 
   def test_check_pub_name
@@ -34,11 +42,10 @@ class PubTest < MiniTest::Test
   end
 
   def test_pub_selling_drink__can_afford
-    customer = Customer.new("Dan", 10.00, 31)
-    @pub.sell_drink(customer, @beer)
-    assert_equal(5.75, customer.wallet())
+    @pub.sell_drink(@customer1, @beer)
+    assert_equal(45.75, @customer1.wallet())
     assert_equal(204.25, @pub.till())
-    assert_equal(1, customer.drinks().count())
+    assert_equal(1, @customer1.drinks().count())
   end
 
   def test_pub_selling_drink__cannot_afford
@@ -50,11 +57,10 @@ class PubTest < MiniTest::Test
   end
 
   def test_pub_selling_drink__is_old_enough
-    customer = Customer.new("Paul", 50.00, 18)
-    @pub.sell_drink(customer, @gin_and_tonic)
-    assert_equal(43.15, customer.wallet())
+    @pub.sell_drink(@customer1, @gin_and_tonic)
+    assert_equal(43.15, @customer1.wallet())
     assert_equal(206.85, @pub.till())
-    assert_equal(1, customer.drinks().count())
+    assert_equal(1, @customer1.drinks().count())
   end
 
   def test_pub_selling_drink__is_too_young
@@ -66,28 +72,32 @@ class PubTest < MiniTest::Test
   end
 
   def test_pub_selling_drink__is_not_drunk
-    customer = Customer.new("Steve", 50.00, 21)
-    @pub.sell_drink(customer, @beer)
-    @pub.sell_drink(customer, @beer)
-    @pub.sell_drink(customer, @beer)
-    @pub.sell_drink(customer, @beer)
-    assert_equal(33.00, customer.wallet())
+    @pub.sell_drink(@customer1, @beer)
+    @pub.sell_drink(@customer1, @beer)
+    @pub.sell_drink(@customer1, @beer)
+    @pub.sell_drink(@customer1, @beer)
+    assert_equal(33.00, @customer1.wallet())
     assert_equal(217.00, @pub.till())
-    assert_equal(4, customer.drinks().count())
+    assert_equal(4, @customer1.drinks().count())
   end
 
   def test_pub_selling_drink__is_too_drunk
-    customer = Customer.new("Bob", 50.00, 21)
-    @pub.sell_drink(customer, @beer)
-    @pub.sell_drink(customer, @beer)
-    @pub.sell_drink(customer, @beer)
-    @pub.sell_drink(customer, @beer)
-    @pub.sell_drink(customer, @beer)
-    @pub.sell_drink(customer, @beer)
-    assert_equal(28.75, customer.wallet())
+    @pub.sell_drink(@customer1, @beer)
+    @pub.sell_drink(@customer1, @beer)
+    @pub.sell_drink(@customer1, @beer)
+    @pub.sell_drink(@customer1, @beer)
+    @pub.sell_drink(@customer1, @beer)
+    @pub.sell_drink(@customer1, @beer)
+    assert_equal(28.75, @customer1.wallet())
     assert_equal(221.25, @pub.till())
-    assert_equal(5, customer.drinks().count())
+    assert_equal(5, @customer1.drinks().count())
   end
 
+  def test_sell_food__can_afford
+    @pub.sell_food(@customer1, @steak)
+    assert_equal(36.00, @customer1.wallet())
+    assert_equal(214.00, @pub.till())
+    assert_equal(1, @customer1.food().count())
+  end
 
 end
