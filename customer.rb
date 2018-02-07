@@ -11,7 +11,7 @@ attr_reader :name , :wallet, :drinks
 
 
   def remove_money(amount)
-    return @wallet -= amount
+    @wallet -= amount
   end
 
   def add_drink(drink)

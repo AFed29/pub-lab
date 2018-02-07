@@ -26,8 +26,8 @@ class CustomerTest < MiniTest::Test
   end
 
   def test_remove_money_from_customer
-    new_balance = @customer1.remove_money(5.5)
-    assert_equal(94.5, new_balance)
+    @customer1.remove_money(5.5)
+    assert_equal(94.5, @customer1.wallet())
   end
 
   def test_add_drink_to_customer
