@@ -12,8 +12,8 @@ attr_reader(:name , :wallet, :drinks, :age, :drunkness, :food)
 
 
 
-  def remove_money(amount)
-    @wallet -= amount
+  def remove_money(item)
+    @wallet -= item.price()
   end
 
   def add_drink(drink)

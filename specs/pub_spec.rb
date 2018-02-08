@@ -37,8 +37,8 @@ class PubTest < MiniTest::Test
   end
 
   def test_add_money_to_till
-    @pub.add_money_to_till(5.50)
-    assert_equal(205.50, @pub.till())
+    @pub.add_money_to_till(@gin_and_tonic)
+    assert_equal(206.85, @pub.till())
   end
 
   def test_find_drink_on_menu
@@ -98,10 +98,22 @@ class PubTest < MiniTest::Test
   end
 
   def test_sell_food__can_afford
-    @pub.sell_food(@customer1, @steak)
+    @pub.sell_food(@customer1, "Rib Eye")
     assert_equal(36.00, @customer1.wallet())
     assert_equal(214.00, @pub.till())
     assert_equal(1, @customer1.food().count())
+  end
+
+  def test_sell_food__not_on_menu
+    @pub.sell_food(@customer1, "Pie")
+    assert_equal(50.00, @customer1.wallet())
+    assert_equal(200.00, @pub.till())
+    assert_equal(0, @customer1.food().count())
+  end
+
+  def test_sell_drink_to_customer__drink_not_on_menu
+    @pub.sell_drink(@customer1, "Guinness")
+    assert_equal(0, @customer1.drinks().count())
   end
 
 end

@@ -28,8 +28,8 @@ class CustomerTest < MiniTest::Test
   end
 
   def test_remove_money_from_customer
-    @customer1.remove_money(5.5)
-    assert_equal(94.5, @customer1.wallet())
+    @customer1.remove_money(@beer)
+    assert_equal(96.35, @customer1.wallet())
   end
 
   def test_add_drink_to_customer
@@ -39,12 +39,12 @@ class CustomerTest < MiniTest::Test
 
   def test_can_customer_afford_drink__cannot_afford
     customer = Customer.new("Bert", 3.00, 21)
-    result = customer.can_customer_afford_drink(@beer)
+    result = customer.can_customer_afford_item(@beer)
     assert_equal(false, result)
   end
 
   def test_can_customer_afford_drink__can_afford
-    result = @customer1.can_customer_afford_drink(@beer)
+    result = @customer1.can_customer_afford_item(@beer)
     assert_equal(true, result)
   end
 
